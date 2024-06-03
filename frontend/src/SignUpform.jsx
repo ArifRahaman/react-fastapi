@@ -19,8 +19,23 @@ function SignupForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/signup', formData);
-            console.log(response.data);
+            // const response = await axios.post('http://127.0.0.1:8000/signup', formData);
+            // console.log(response.data);
+            const response = await fetch("http://127.0.0.1:8000/signup", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            // const response = await fetch('http://127.0.0.1:8000/signup', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(formData),
+            // });
+            const result = await response.json();
+            localStorage.setItem("man",JSON.stringify(result));
+            // localStorage.setItem("email", result.email);
+            // localStorage.setItem("password", result.password);
+            console.log(result)
         } catch (error) {
             console.error('There was an error!', error);
         }

@@ -20,7 +20,7 @@ function LoginForm() {
         e.preventDefault();
         try {
             const response = await axios.post('http://127.0.0.1:8000/login', formData);
-            console.log(response.data);
+            // console.log(response.data);
 
             if (response.status === 200) {
                 navigate("/home");

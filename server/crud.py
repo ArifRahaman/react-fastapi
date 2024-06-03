@@ -1,6 +1,9 @@
 # crud.py
+from http import client
 from bson.objectid import ObjectId
 from fastapi import HTTPException
+
+from server.models import User
 from .database import user_collection, user_helper
 
 # crud.py
@@ -29,6 +32,8 @@ async def update_user_by_id(user_id: str, new_data: dict):
         {"$set": new_data}
     )
 
+    
+
     if result.modified_count == 1:
         return {"message": "User updated successfully"}
     else:
@@ -56,3 +61,32 @@ async def find_user_by_id(user_id: str):
  
     # return {"message": "User updated successfully"}
     return user
+
+
+
+async def update_user_in_db(user: User):
+    # Extract relevant fields from user (e.g., username, email)
+    username = user.username
+    email = user.email
+ 
+
+    # Update user data in the database
+    updated_user = await user_collection.find_one_and_update(
+        {"username": username},  # Filter by username (replace with appropriate field)
+        {"$set": {"email": email,  
+                
+                 }},
+        return_document=True  # Return the updated document
+    )
+    
+    print("####################################33", updated_user)
+    if "_id" in updated_user:
+        updated_user["_id"]=str(updated_user["_id"])
+
+
+
+    if updated_user:
+        return updated_user  # Return the updated user document
+    else:
+        return None  # User not found
+
